@@ -2,12 +2,15 @@ package org.example;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.time.Duration;
+import java.time.Instant;
 
 public class Board {
     private final int rows;
     private final int cols;
     private final int mines;
     private boolean gameOver;
+    private Instant startTime;
     private final Cell[][] cells;
 
     public Board(int rows, int cols, int mines) {
@@ -16,6 +19,7 @@ public class Board {
         this.mines = mines;
         this.gameOver = false;
         this.cells = new Cell[rows][cols];
+        this.startTime = Instant.now();
         initialiseBoard();
         placeMines();
         calculateAdjacentMines();
@@ -85,6 +89,7 @@ public class Board {
             System.out.println("Game Over! You hit a mine.");
             gameOver = true;
             printBoard();  // Print board revealing all mines
+            displayStats();
             System.exit(0);
         }
 
@@ -100,6 +105,31 @@ public class Board {
         }
     }
 
+    private double calculateClearedPercentage() {
+        int totalCells = rows * cols;
+        int clearedCells = 0;
+
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                if (cells[row][col].isRevealed() && !cells[row][col].isMine()) {
+                    clearedCells++;
+                }
+            }
+        }
+        return (double) clearedCells / (totalCells - mines) * 100;
+    }
+
+    private void displayStats() {
+        Instant endTime = Instant.now();
+        Duration elapsedTime = Duration.between(startTime, endTime);
+        long minutes = elapsedTime.toMinutes();
+        long seconds = elapsedTime.minusMinutes(minutes).getSeconds();
+
+        double clearedPercentage = calculateClearedPercentage();
+
+        System.out.printf("Time taken: %d minutes %d seconds%n", minutes, seconds);
+        System.out.printf("You have cleared %.2f%% of the board.%n", clearedPercentage);
+    }
 
     public void handleUserInput() {
         Scanner scanner = new Scanner(System.in);
@@ -145,6 +175,7 @@ public class Board {
                 System.out.println("Congratulations! You've cleared all mines.");
                 gameOver = true;
                 printBoard();  // Print board revealing all mines
+                displayStats();
                 break;
             }
         }
