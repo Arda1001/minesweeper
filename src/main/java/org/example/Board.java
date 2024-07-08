@@ -88,9 +88,8 @@ public class Board {
         if (cells[row][col].isMine()) {
             System.out.println("Game Over! You hit a mine.");
             gameOver = true;
-            printBoard();  // Print board revealing all mines
             displayStats();
-            System.exit(0);
+            return;
         }
 
         // If the cell has zero adjacent mines, recursively reveal adjacent cells
@@ -134,7 +133,10 @@ public class Board {
     public void handleUserInput() {
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
+        // Print initial board
+        printBoard();
+
+        while (!gameOver) {
             System.out.print("Enter command (r row col to reveal, f row col to flag/unflag): ");
             String input = scanner.nextLine();
             String[] parts = input.split(" ");
@@ -221,7 +223,7 @@ public class Board {
                 else if (cell.isFlagged() && !gameOver) {
                     System.out.print(" F ");
                 }
-                else if (cell.isMine() && gameOver) {
+                else if (gameOver && cell.isMine()) {
                     System.out.print(" * ");
                 }
                 else {
