@@ -8,6 +8,10 @@ public class Minesweeper {
         Scanner scanner = new Scanner(System.in);
         boolean playAgain;
 
+        System.out.println("Welcome to Minesweeper!");
+        System.out.println("You will be prompted to enter the number of rows, columns, and mines for the game.");
+        System.out.println();
+
         do {
             int rows = 0;
             int cols = 0;
