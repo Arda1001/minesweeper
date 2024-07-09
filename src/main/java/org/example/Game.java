@@ -26,11 +26,11 @@ public class Game {
             // Validate rows
             while (!validInput) {
                 try {
-                    System.out.print("Enter the number of rows (1-20): ");
+                    System.out.print("Enter the number of rows (2-20): ");
                     rows = scanner.nextInt();
 
-                    if (rows <= 0 || rows > 20) {
-                        System.out.println("Rows must be between 1 and 20.");
+                    if (rows <= 1 || rows > 20) {
+                        System.out.println("Rows must be between 2 and 20.");
                     }
                     else {
                         validInput = true;
@@ -48,11 +48,11 @@ public class Game {
             // Validate columns
             while (!validInput) {
                 try {
-                    System.out.print("Enter the number of columns (1-20): ");
+                    System.out.print("Enter the number of columns (2-20): ");
                     cols = scanner.nextInt();
 
-                    if (cols <= 0 || cols > 20) {
-                        System.out.println("Columns must be between 1 and 20.");
+                    if (cols <= 1 || cols > 20) {
+                        System.out.println("Columns must be between 2 and 20.");
                     }
                     else {
                         validInput = true;
